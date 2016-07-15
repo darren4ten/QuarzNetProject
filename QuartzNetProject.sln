@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobHost", "QuartzNetProject\JobHost.csproj", "{6107FECB-E7AB-4626-95FD-DC2353B453A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobHost", "JobHost\JobHost.csproj", "{6107FECB-E7AB-4626-95FD-DC2353B453A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobAPI", "QuartzNetDB\JobAPI.csproj", "{F53D5A68-B7D2-47B4-897E-A98E1195EE42}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobAPI", "JobAPI\JobAPI.csproj", "{F53D5A68-B7D2-47B4-897E-A98E1195EE42}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobEntities", "JobEntities\JobEntities.csproj", "{EF36D01F-A472-4D4E-BB8E-02891AF9F827}"
 EndProject
