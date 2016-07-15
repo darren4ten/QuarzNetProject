@@ -60,6 +60,16 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JobAPI\JobAPI.csproj">
+      <Project>{f53d5a68-b7d2-47b4-897e-a98e1195ee42}</Project>
+      <Name>JobAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JobCommon\JobCommon.csproj">
+      <Project>{34435220-a1f5-4d8a-b10b-91e8d8b651f8}</Project>
+      <Name>JobCommon</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

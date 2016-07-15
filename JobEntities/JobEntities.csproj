@@ -39,7 +39,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseJob1.cs" />
     <Compile Include="DemoJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
