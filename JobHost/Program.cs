@@ -1,4 +1,5 @@
-﻿using JobAPI.Model;
+﻿using JobAPI.Managers;
+using JobAPI.Model;
 using Quartz;
 using Quartz.Impl;
 using System;
@@ -34,7 +35,7 @@ namespace JobAPI
             };
             var list = HostScheduler.GetCurrentScheduler().GetJobGroupNames();
             Console.WriteLine(string.Join(",", list));
-            //JobManager.AddJob(jInfo);
+            JobManager.AddJob(jInfo);
             //JobManager.DeleteJob("testJob", "test");
             HostScheduler.Start();
         }
