@@ -1,7 +1,7 @@
 ﻿
 using JobCommon;
+using JobCommon.Model;
 using Quartz;
-using JobAPI.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

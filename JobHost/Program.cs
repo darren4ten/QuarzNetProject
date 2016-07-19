@@ -1,5 +1,5 @@
 ﻿using JobAPI.Managers;
-using JobAPI.Model;
+using JobCommon.Model;
 using Quartz;
 using Quartz.Impl;
 using QuartzNetProject;

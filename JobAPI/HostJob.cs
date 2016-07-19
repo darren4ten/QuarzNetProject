@@ -3,7 +3,6 @@ using JobCommon;
 using Quartz;
 using Quartz.Impl;
 using JobAPI.Managers;
-using JobAPI.Model;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -11,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using JobCommon.Model;
 
 namespace JobAPI
 {

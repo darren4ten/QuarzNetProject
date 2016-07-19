@@ -61,9 +61,6 @@
     <Compile Include="HostScheduler.cs" />
     <Compile Include="Managers\JobManager.cs" />
     <Compile Include="Managers\SchedulerManager.cs" />
-    <Compile Include="Model\Consts.cs" />
-    <Compile Include="Model\Enums.cs" />
-    <Compile Include="Model\JobInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
