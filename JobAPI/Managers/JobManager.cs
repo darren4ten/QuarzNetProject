@@ -13,7 +13,7 @@ namespace JobAPI.Managers
 {
     public class JobManager
     {
-        public static void AddJob(JobInfo jobInfo)
+        public void AddJob(JobInfo jobInfo)
         {
 
             if (string.IsNullOrEmpty(jobInfo.JobName) || string.IsNullOrEmpty(jobInfo.GroupName))
@@ -33,7 +33,6 @@ namespace JobAPI.Managers
 
             // 反射获取job实例
             Assembly assembly = Consts.GetAssembly(jobInfo.FileName);
-            var jjjjjjob = assembly.CreateInstance(jobInfo.ClassName);
             BaseJob job = assembly.CreateInstance(jobInfo.ClassName) as BaseJob;
             if (job == null)
             {
@@ -137,7 +136,7 @@ namespace JobAPI.Managers
             HostScheduler.RegisterJob(innerJob, trigger);
         }
 
-        public static void DeleteJob(JobInfo jobInfo)
+        public void DeleteJob(JobInfo jobInfo)
         {
             if (string.IsNullOrEmpty(jobInfo.JobName) || string.IsNullOrEmpty(jobInfo.GroupName))
             {
@@ -148,7 +147,7 @@ namespace JobAPI.Managers
             HostScheduler.RemoveJob(jobKey);
         }
 
-        public static void DeleteJob(string jobName, string groupName)
+        public void DeleteJob(string jobName, string groupName)
         {
             if (string.IsNullOrEmpty(jobName) || string.IsNullOrEmpty(groupName))
             {

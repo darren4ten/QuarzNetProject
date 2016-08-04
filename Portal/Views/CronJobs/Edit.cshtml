@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Portal.Extensions
+@{
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     ViewBag.Title = "Job配置";
 }
@@ -14,16 +15,16 @@
 
         <span>
             @using (Html.BeginForm("Delete", "CronJobs", FormMethod.Post, new { id = "frm_delete" }))
-                {
+            {
                 @Html.HiddenFor(model => model.ID, new { name = "id" })
-                }
+            }
         </span>
 
     </div>
     <div class="panel-body container-fluid">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @using (Html.BeginForm("Edit", "CronJobs", FormMethod.Post, new { id = "form_jobconfig", enctype = "multipart/form-data", @class = "horizontal-form form-inline" }))
-            {
+        {
             <div>
                 @Html.HiddenFor(model => model.ID)
             </div>
@@ -31,18 +32,18 @@
             <div class="row">
                 @Html.LabelFor(model => model.JobName, htmlAttributes: new { @class = "control-label col-md-2 textStyle" })
                 @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
-                    {
+                {
                     <div class="textStyle col-md-4">
                         @Model.JobName
                     </div>
-                    }
-                    else
-                    {
+                }
+                else
+                {
                     <div class="controls  col-md-4">
                         @Html.TextBoxFor(model => model.JobName, new { @class = "help col-md-12" })
                         @Html.ValidationMessageFor(model => model.JobName, "", new { @class = "help col-md-6" })
                     </div>
-                    }
+                }
 
                 @Html.LabelFor(model => model.JobDisplayName, htmlAttributes: new { @class = "control-label col-md-2 textStyle" })
                 <div class="controls col-md-4">
@@ -56,7 +57,7 @@
             <div class="row">
                 @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label  col-md-2" })
                 <div class="controls col-md-4">
-                    @Html.TextBoxFor(model => model.StartTime,"",new { @class = "help col-md-12" })
+                    @Html.TextBoxFor(model => model.StartTime, "", new { @class = "help col-md-12" })
                 </div>
                 @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "help" })
 
@@ -71,71 +72,93 @@
             <div class="row">
                 @Html.LabelFor(model => model.RepeatMode, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="controls col-md-4">
-                    @*@Html.DropDownListFor(model => model.RepeatMode, (List<SelectListItem>)ViewBag.RepeatModes, new { @onchange = "changeRepeatMode();" })*@
+                    @(Html.EnumToDropdownList(Model.RepeatMode, "RepeatMode", "col-md-8", "--请选择--"))
                 </div>
 
             </div>
 
-            <div class="row">
+            <div class="row" id="FixedExpressionRow">
                 @Html.LabelFor(model => model.FixedExpression, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="controls col-md-10">
                     @Html.TextAreaFor(model => model.FixedExpression, new { @class = "col-md-12" })
                 </div>
 
             </div>
-            <div class="row">
+
+            <div class="row" id="IntervalRow" style="@(Model.RepeatMode == JobCommon.Model.RepeatModeEnum.Interval?"display:''":"display:none")">
                 @Html.LabelFor(model => model.CycleUnit, htmlAttributes: new { @class = "control-label col-md-2 " })
                 <div class="controls col-md-4">
+                    @(Html.EnumToDropdownList(Model.CycleUnit, "CycleUnit", "col-md-8", "--请选择--"))
                     @*@Html.DropDownListFor(model => model.CycleUnit, (List<SelectListItem>)ViewBag.CycleUnits, "--请选择--")*@
                 </div>
 
                 @Html.LabelFor(model => model.Interval, htmlAttributes: new { @class = "control-label col-md-2 " })
                 <div class="controls col-md-4">
-                    @Html.TextBoxFor(model => model.Interval,"",new { @class = "control-label col-md-12 " })
+                    @Html.TextBoxFor(model => model.Interval, "", new { @class = "control-label col-md-12 " })
                 </div>
                 @Html.ValidationMessageFor(model => model.Interval, "", new { @class = "help" })
 
             </div>
+
+
             <div class="row">
                 <label class="control-label col-md-2 textStyle" for="assemblyFile">请上传job所在的dll</label>
                 <div class="controls col-md-6">
                     <input type="file" name="assemblyFile" class="span12" id="fileAttachment" accept=".dll" />
-                </div>
-            </div>
 
-            <div class="row">
-                @Html.LabelFor(model => model.AssemblyPath, htmlAttributes: new { @class = "control-label col-md-2 span2" })
-                <div class="controls col-md-10">
-                    @Html.TextBoxFor(model => model.AssemblyPath,"",new { @class = "m-wrap col-md-12" })
-                    @Html.ValidationMessageFor(model => model.AssemblyPath, "", new { @class = "help col-md-2" })
                 </div>
-            </div>
-
-            <div class="row">
-                @Html.LabelFor(model => model.JobClassName, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="controls col-md-4">
-                    @Html.TextBoxFor(model => model.JobClassName, "", new { @class = "m-wrap col-md-12" })
-                    @Html.ValidationMessageFor(model => model.JobClassName, "", new { @class = "help" })
-                </div>
-
-                @Html.LabelFor(model => model.IsEnabled, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class=" controls col-md-4">
-                    @Html.EditorFor(model => model.IsEnabled, new { htmlAttributes = new { @class = "col-md-12 form-control" } })
+                    <input type="submit" name="buttons" class="span12" id="upload" value="上传" />
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-2">
-
+                <div class="row">
+                    @Html.LabelFor(model => model.AssemblyPath, htmlAttributes: new { @class = "control-label col-md-2 span2" })
+                    <div class="controls col-md-10">
+                        @Html.TextBoxFor(model => model.AssemblyPath, "", new { @class = "m-wrap col-md-12", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.AssemblyPath, "", new { @class = "help col-md-2" })
+                    </div>
                 </div>
-                <div class="form-actions col-md-2">
-                    <button type="submit" class="btn green" name="buttons" value="btnSave"><i class="icon-ok"></i> 保存</button>
-                </div>
-            </div>
 
-    }
+                <div class="row">
+                    @Html.LabelFor(model => model.JobClassName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="controls col-md-4">
+                        @Html.TextBoxFor(model => model.JobClassName, "", new { @class = "m-wrap col-md-12" })
+                        @Html.ValidationMessageFor(model => model.JobClassName, "", new { @class = "help" })
+                    </div>
+
+                    @Html.LabelFor(model => model.IsEnabled, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class=" controls col-md-4">
+                        @Html.EditorFor(model => model.IsEnabled, new { htmlAttributes = new { @class = "col-md-12 form-control" } })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+
+                    </div>
+                    <div class="form-actions col-md-2">
+                        <button type="submit" class="btn green" name="buttons" value="btnSave"><i class="icon-ok"></i> 保存</button>
+                    </div>
+                </div>
+
+        }
 
     </div>
 </div>
 
+<script>
+    $(function () {
 
+        $("#RepeatMode").change(function () {
+            var mode = $(this).val();
+            if (mode == 1) {
+                $("#IntervalRow").show();
+                $("#FixedExpressionRow").hide();
+            } else {
+                $("#IntervalRow").hide();
+                $("#FixedExpressionRow").show();
+            }
+        });
+    });
+</script>

@@ -1,11 +1,11 @@
 ﻿@{
     ViewBag.Title = "Job配置";
 }
-@model Portal.Models.JobRecord
 <html>
 <head>
     <title>@ViewBag.Title</title>
     <link href="/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
     <style>
         .panel {
             width: 1170px;
@@ -47,9 +47,9 @@
             <div class="navbar-collapse collapse" id="navbar-main">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">任务列表 <span class="caret"></span></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="/CronJobs/TaskList" id="themes">任务列表 <span class="caret"></span></a>
                         <ul class="dropdown-menu" aria-labelledby="themes">
-                            <li><a href="../default/">任务列表</a></li>
+                            <li><a href="/CronJobs/TaskList">任务列表</a></li>
                         </ul>
                     </li>
                     <li>

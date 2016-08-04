@@ -70,7 +70,8 @@ namespace JobAPI
             };
             var list = HostScheduler.GetCurrentScheduler().GetJobGroupNames();
             Console.WriteLine(string.Join(",", list));
-            JobManager.AddJob(jInfo);
+            JobManager m = new JobManager();
+            m.AddJob(jInfo);
             //JobManager.DeleteJob("testJob", "test");
             HostScheduler.Start();
         }

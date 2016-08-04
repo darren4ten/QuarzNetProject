@@ -1,4 +1,5 @@
-﻿using Quartz;
+﻿using JobAPI.Managers;
+using Quartz;
 using Quartz.Impl;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace JobAPI
         static HostScheduler()
         {
             scheduler = StdSchedulerFactory.GetDefaultScheduler();
+            scheduler.ListenerManager.AddSchedulerListener(new HostSchedulerListener());
         }
 
         public static IScheduler GetCurrentScheduler()

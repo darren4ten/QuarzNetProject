@@ -49,6 +49,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -59,7 +60,9 @@
   <ItemGroup>
     <Compile Include="HostJob.cs" />
     <Compile Include="HostScheduler.cs" />
+    <Compile Include="Managers\HostTriggerModel.cs" />
     <Compile Include="Managers\JobManager.cs" />
+    <Compile Include="Managers\HostSchedulerListener.cs" />
     <Compile Include="Managers\SchedulerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
