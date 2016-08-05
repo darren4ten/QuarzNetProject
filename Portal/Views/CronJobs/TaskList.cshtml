@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Portal.Models.JobRecord>
+﻿@model IEnumerable<JobCommon.Model.Job_Config>
 @{
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     ViewBag.Title = "任务列表";
@@ -22,8 +22,8 @@
                 <td><a href="/CronJobs/Edit?id=@item.ID">@item.JobDisplayName</a></td>
                 <td>@item.JobName</td>
                 <td>@item.RepeatMode</td>
-                <td>@item.IsEnabled</td>
-                <td>--</td>
+                <td>@item.IsEnable</td>
+                <td>@item.Status</td>
             </tr>
         }
     </tbody>

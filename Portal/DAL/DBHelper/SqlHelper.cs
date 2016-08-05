@@ -36,6 +36,71 @@ namespace Portal.DAL.DBHelper
             }
         }
 
+        public static string GetString(object val)
+        {
+            if (val == null || val is DBNull)
+            {
+                return null;
+            }
+            else
+            {
+                return val.ToString();
+            }
+        }
+
+        /// <summary>
+        /// 如果转换为null则返回Int32.MinValue
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public static int GetInt32(object val)
+        {
+            if (val is DBNull)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(val);
+            }
+        }
+
+        public static double GetDouble(object val)
+        {
+            if (val is DBNull)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToDouble(val);
+            }
+        }
+
+        public static DateTime GetDateTime(object val)
+        {
+            if (val is DBNull)
+            {
+                return DateTime.MinValue;
+            }
+            else
+            {
+                return Convert.ToDateTime(val);
+            }
+        }
+
+        public static DateTime? GetDateTimeNullable(object val)
+        {
+            if (val is DBNull || val == null)
+            {
+                return null;
+            }
+            else
+            {
+                return Convert.ToDateTime(val);
+            }
+        }
+        
 
         public static int ExecuteNonQuery(string sql, params SqlParameter[] pars)
         {

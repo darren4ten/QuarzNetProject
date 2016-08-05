@@ -1,4 +1,5 @@
-﻿using JobCommon.Model;
+﻿
+using JobCommon.Model;
 using Portal.DAL.DBHelper;
 using Portal.Models;
 using System;
@@ -7,84 +8,72 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
-
 namespace Portal.DAL
 {
     public class JobRecordDAL
     {
-        public int Add(JobRecord record)
+        public int Add(Job_Config record)
         {
-            string sql = "insert into JobRecord values(@id,@jname,@gname,@jdisplay,@jdesc,@jclass,@assembly,@repeatMode,@fixedUnit,@FixeExpression,@cycleUnit,@interval,@start,@enabled)";
+            string sql = @"insert into Job_Config
+                        values(@jname,@jdisplay,@gname,@cycleUnit,@interval,@assemblyName,@jclass,
+                            @start,@enabled,@dtCreatTime,@dtLastTime,@filePath,@status,@repeatMode,@fixedUnit,@FixedExpression)";
 
 
             return SqlHelper.ExecuteNonQuery(sql,
-                new SqlParameter("@id", record.ID),
+
                 new SqlParameter("@jname", record.JobName),
                 new SqlParameter("@gname", record.GroupName),
                 new SqlParameter("@jdisplay", record.JobDisplayName),
-                new SqlParameter("@jdesc", record.JobDescription),
-                new SqlParameter("@jclass", record.JobClassName),
-                new SqlParameter("@assembly", record.AssemblyPath),
+                new SqlParameter("@jclass", record.ClassName),
+                new SqlParameter("@assemblyName", record.AssemblyName),
+                new SqlParameter("@filePath", record.FilePath),
                 new SqlParameter("@repeatMode", Convert.ToInt32(record.RepeatMode)),
                 new SqlParameter("@fixedUnit", record.FixedUnit),
-                new SqlParameter("@FixeExpression", record.FixedExpression),
+                new SqlParameter("@FixedExpression", record.FixedExpression),
+                new SqlParameter("@dtCreatTime", record.DataChange_CreateTime),
+                new SqlParameter("@dtLastTime", ""),
                 new SqlParameter("@cycleUnit", record.CycleUnit),
                 new SqlParameter("@interval", record.Interval),
                 new SqlParameter("@start", record.StartTime),
-                 new SqlParameter("@enabled", record.IsEnabled)
+                new SqlParameter("@status", record.Status),
+                new SqlParameter("@enabled", record.IsEnable)
                 );
         }
 
-        public int Update(JobRecord record)
+        public int Update(Job_Config record)
         {
-            string sql = @"update JobRecord set JobName=@jname,GroupName=@gname,
-                           JobDisplayName=@jdisplay,JobDescription=@jdesc,JobClassName=@jclass,AssemblyPath=@assembly,RepeatMode=@repeatMode,
-                                    FixedUnit=@fixedUnit,FixedExpression=@FixeExpression,
-                                CycleUnit=@cycleUnit,Interval=@interval,StartTime=@start,IsEnabled=@enabled
+            string sql = @"update Job_Config set JobName=@jname,GroupName=@gname,JobDisplayName=@jdisplay,ClassName=@jclass,
+                    AssemblyName=@assemblyName,FilePath=@filePath,RepeatMode=@repeatMode,FixedUnit=@fixedUnit,FixedExpression=@FixedExpression,
+                            DataChange_CreateTime=@dtCreatTime,CycleUnit=@cycleUnit,Interval=@interval,StartTime=@start,Status=@status,IsEnable=@enabled
                                     where ID=@id";
 
-
             return SqlHelper.ExecuteNonQuery(sql,
                 new SqlParameter("@id", record.ID),
                 new SqlParameter("@jname", record.JobName),
                 new SqlParameter("@gname", record.GroupName),
                 new SqlParameter("@jdisplay", record.JobDisplayName),
-                new SqlParameter("@jdesc", record.JobDescription),
-                new SqlParameter("@jclass", record.JobClassName),
-                new SqlParameter("@assembly", record.AssemblyPath),
+                new SqlParameter("@jclass", record.ClassName),
+                new SqlParameter("@assemblyName", record.AssemblyName),
+                new SqlParameter("@filePath", record.FilePath),
                 new SqlParameter("@repeatMode", Convert.ToInt32(record.RepeatMode)),
                 new SqlParameter("@fixedUnit", record.FixedUnit),
-                new SqlParameter("@FixeExpression", record.FixedExpression),
+                new SqlParameter("@FixedExpression", record.FixedExpression),
+                new SqlParameter("@dtCreatTime", record.DataChange_CreateTime),
                 new SqlParameter("@cycleUnit", record.CycleUnit),
                 new SqlParameter("@interval", record.Interval),
                 new SqlParameter("@start", record.StartTime),
-                 new SqlParameter("@enabled", record.IsEnabled)
+                new SqlParameter("@status", record.Status),
+                new SqlParameter("@enabled", record.IsEnable)
                 );
         }
 
-        public JobRecord Get(Guid id)
+        public Job_Config Get(int id)
         {
-            string sql = "select top 1 * from JobRecord where id=@id";
-            var dt = SqlHelper.ExecuteDatatable(sql, new SqlParameter("id", id.ToString()));
+            string sql = "select top 1 * from Job_Config where id=@id";
+            var dt = SqlHelper.ExecuteDatatable(sql, new SqlParameter("id", id));
             if (dt.Rows.Count > 0)
             {
-                //var row = dt.Rows[0];
-                //JobRecord r = new JobRecord();
-                //r.ID = id;
-                //r.JobName = Convert.ToString(row["JobName"]);
-                //r.GroupName = Convert.ToString(row["GroupName"]);
-                //r.JobDescription = Convert.ToString(row["JobDescription"]);
-                //r.JobDisplayName = Convert.ToString(row["JobDisplayName"]);
-                //r.JobClassName = Convert.ToString(row["JobClassName"]);
-                //r.AssemblyPath = Convert.ToString(row["AssemblyPath"]);
-                //r.RepeatMode = (RepeatModeEnum)Enum.Parse(typeof(RepeatModeEnum), Convert.ToString(row["RepeatMode"]));
-                //r.FixedUnit = (FixedUnitEnum)Enum.Parse(typeof(FixedUnitEnum), Convert.ToString(row["FixedUnit"]));
-                //r.FixedExpression = Convert.ToString(row["FixedExpression"]);
-                //r.CycleUnit = (CycleUnitEnum)Enum.Parse(typeof(CycleUnitEnum), Convert.ToString(row["CycleUnit"]));
-                //r.Interval = SqlHelper.GetValue(row["Interval"]);
-                //r.StartTime = DateTime.Parse(Convert.ToString(row["StartTime"]));
-                //r.IsEnabled = Convert.ToBoolean(row["IsEnabled"]);
-                var r = GetRecord(dt.Rows[0]);
+                var r = GetJob_Config(dt.Rows[0]);
                 return r;
             }
             else
@@ -94,35 +83,35 @@ namespace Portal.DAL
 
         }
 
-        protected JobRecord GetRecord(DataRow row)
+        protected Job_Config GetJob_Config(DataRow row)
         {
-            JobRecord r = new JobRecord();
-            r.ID = Guid.Parse(row["ID"].ToString());
+            Job_Config r = new Job_Config();
+            r.ID = SqlHelper.GetInt32(row["ID"].ToString());
             r.JobName = Convert.ToString(row["JobName"]);
             r.GroupName = Convert.ToString(row["GroupName"]);
-            r.JobDescription = Convert.ToString(row["JobDescription"]);
+            r.DataChange_CreateTime = Convert.ToDateTime(row["DataChange_CreateTime"]);
             r.JobDisplayName = Convert.ToString(row["JobDisplayName"]);
-            r.JobClassName = Convert.ToString(row["JobClassName"]);
-            r.AssemblyPath = Convert.ToString(row["AssemblyPath"]);
-            r.RepeatMode = (RepeatModeEnum)Enum.Parse(typeof(RepeatModeEnum), Convert.ToString(row["RepeatMode"]));
-            r.FixedUnit = (FixedUnitEnum)Enum.Parse(typeof(FixedUnitEnum), Convert.ToString(row["FixedUnit"]));
+            r.ClassName = Convert.ToString(row["ClassName"]);
+            r.FilePath = Convert.ToString(row["FilePath"]);
+            r.RepeatMode = Convert.ToInt32(row["RepeatMode"]);
+            r.FixedUnit = Convert.ToInt32(row["FixedUnit"]);
             r.FixedExpression = Convert.ToString(row["FixedExpression"]);
-            r.CycleUnit = (CycleUnitEnum)Enum.Parse(typeof(CycleUnitEnum), Convert.ToString(row["CycleUnit"]));
-            r.Interval = SqlHelper.GetValue(row["Interval"]);
+            r.CycleUnit = Convert.ToInt32(row["CycleUnit"]);
+            r.Interval = Convert.ToInt32(row["Interval"]);
             r.StartTime = DateTime.Parse(Convert.ToString(row["StartTime"]));
-            r.IsEnabled = Convert.ToBoolean(row["IsEnabled"]);
+            r.IsEnable = Convert.ToBoolean(row["IsEnable"]);
             return r;
 
         }
 
 
-        public List<JobRecord> GetList(string sql, params SqlParameter[] pars)
+        public List<Job_Config> GetList(string sql, params SqlParameter[] pars)
         {
             var dt = SqlHelper.ExecuteDatatable(sql, pars);
-            List<JobRecord> list = new List<JobRecord>();
+            List<Job_Config> list = new List<Job_Config>();
             foreach (DataRow item in dt.Rows)
             {
-                list.Add(GetRecord(item));
+                list.Add(GetJob_Config(item));
             }
 
             return list;

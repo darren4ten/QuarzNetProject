@@ -1,4 +1,5 @@
-﻿using JobCommon.Model;
+﻿
+using JobCommon.Model;
 using Portal.DAL;
 using Portal.Models;
 using System;
@@ -23,28 +24,30 @@ namespace Portal.Controllers
 
         public ActionResult Edit(string id = "")
         {
-            JobRecord record = new JobRecord();
+            Job_Config record = new Job_Config();
             if (string.IsNullOrEmpty(id))
             {
+                record.ID = -1;
                 record.StartTime = DateTime.Now;
 
             }
             else
             {
-                record = dal.Get(Guid.Parse(id));
+                record = dal.Get(Convert.ToInt32(id));
             }
             return View(record);
         }
 
         [HttpPost]
-        public ActionResult Edit(JobRecord record, string buttons = "")
+        public ActionResult Edit(Job_Config record, string buttons = "")
         {
             int cnt = -1;
             if (ModelState.IsValid)
             {
-                if (record.ID == Guid.Empty)
+                if (record.ID == -1)
                 {
-                    record.ID = Guid.NewGuid();
+                    record.DataChange_CreateTime = DateTime.Now;
+
                     cnt = dal.Add(record);
                 }
                 else
@@ -54,16 +57,17 @@ namespace Portal.Controllers
                         string fullPath = UploadFiles();
                         if (!string.IsNullOrEmpty(fullPath))
                         {
-                            record.AssemblyPath = fullPath;
+                            record.FilePath = fullPath;
                         }
                     }
                     cnt = dal.Update(record);
                 }
 
-                if (cnt > 0)
-                {
-                    return RedirectToAction("Edit", new { id = record.ID });
-                }
+                //if (record.ID!=-1 && cnt > 0)
+                //{
+                //    return RedirectToAction("TaskList");
+                //}
+                return RedirectToAction("Edit");
             }
             else
             {
@@ -100,8 +104,8 @@ namespace Portal.Controllers
 
         public ActionResult TaskList()
         {
-            string sql = "select * from JobRecord  ";
-            List<JobRecord> list = dal.GetList(sql);
+            string sql = "select * from Job_Config  ";
+            List<Job_Config> list = dal.GetList(sql);
 
             return View(list);
         }

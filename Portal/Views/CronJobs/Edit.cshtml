@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     ViewBag.Title = "Job配置";
 }
-@model Portal.Models.JobRecord
+@model JobCommon.Model.Job_Config
 
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -27,6 +27,7 @@
         {
             <div>
                 @Html.HiddenFor(model => model.ID)
+                @Html.HiddenFor(model => model.DataChange_CreateTime)
             </div>
 
             <div class="row">
@@ -85,7 +86,7 @@
 
             </div>
 
-            <div class="row" id="IntervalRow" style="@(Model.RepeatMode == JobCommon.Model.RepeatModeEnum.Interval?"display:''":"display:none")">
+            <div class="row" id="IntervalRow" style="@(Model.RepeatMode == (int)JobCommon.Model.RepeatModeEnum.Interval?"":"display:none")">
                 @Html.LabelFor(model => model.CycleUnit, htmlAttributes: new { @class = "control-label col-md-2 " })
                 <div class="controls col-md-4">
                     @(Html.EnumToDropdownList(Model.CycleUnit, "CycleUnit", "col-md-8", "--请选择--"))
@@ -112,35 +113,35 @@
                 </div>
             </div>
 
-                <div class="row">
-                    @Html.LabelFor(model => model.AssemblyPath, htmlAttributes: new { @class = "control-label col-md-2 span2" })
-                    <div class="controls col-md-10">
-                        @Html.TextBoxFor(model => model.AssemblyPath, "", new { @class = "m-wrap col-md-12", @readonly = "readonly" })
-                        @Html.ValidationMessageFor(model => model.AssemblyPath, "", new { @class = "help col-md-2" })
-                    </div>
+            <div class="row">
+                @Html.LabelFor(model => model.FilePath, htmlAttributes: new { @class = "control-label col-md-2 span2" })
+                <div class="controls col-md-10">
+                    @Html.TextBoxFor(model => model.FilePath, "", new { @class = "m-wrap col-md-12", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.FilePath, "", new { @class = "help col-md-2" })
+                </div>
+            </div>
+
+            <div class="row">
+                @Html.LabelFor(model => model.ClassName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="controls col-md-4">
+                    @Html.TextBoxFor(model => model.ClassName, "", new { @class = "m-wrap col-md-12" })
+                    @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "help" })
                 </div>
 
-                <div class="row">
-                    @Html.LabelFor(model => model.JobClassName, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="controls col-md-4">
-                        @Html.TextBoxFor(model => model.JobClassName, "", new { @class = "m-wrap col-md-12" })
-                        @Html.ValidationMessageFor(model => model.JobClassName, "", new { @class = "help" })
-                    </div>
-
-                    @Html.LabelFor(model => model.IsEnabled, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class=" controls col-md-4">
-                        @Html.EditorFor(model => model.IsEnabled, new { htmlAttributes = new { @class = "col-md-12 form-control" } })
-                    </div>
+                @Html.LabelFor(model => model.IsEnable, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class=" controls col-md-4">
+                    @Html.EditorFor(model => model.IsEnable, new { htmlAttributes = new { @class = "col-md-12 form-control" } })
                 </div>
+            </div>
 
-                <div class="row">
-                    <div class="col-md-2">
+            <div class="row">
+                <div class="col-md-2">
 
-                    </div>
-                    <div class="form-actions col-md-2">
-                        <button type="submit" class="btn green" name="buttons" value="btnSave"><i class="icon-ok"></i> 保存</button>
-                    </div>
                 </div>
+                <div class="form-actions col-md-2">
+                    <button type="submit" class="btn green" name="buttons" value="btnSave"><i class="icon-ok"></i> 保存</button>
+                </div>
+            </div>
 
         }
 
