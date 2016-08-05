@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 
 namespace JobAPI.Managers
 {
+    /// <summary>
+    /// JOB管理器
+    /// </summary>
+    [Serializable]
     public class JobManager
     {
         public void AddJob(JobInfo jobInfo)
@@ -124,6 +128,11 @@ namespace JobAPI.Managers
 
                 builder = builder.WithCronSchedule(expression,
                     x => x.WithMisfireHandlingInstructionIgnoreMisfires().InTimeZone(TimeZoneInfo.Local));
+            }
+            else if (jobInfo.RepeatMode == RepeatModeEnum.CronExp)
+            {
+                builder = builder.WithCronSchedule(jobInfo.FixedExpression,
+                  x => x.WithMisfireHandlingInstructionIgnoreMisfires().InTimeZone(TimeZoneInfo.Local));
             }
 
             if (jobInfo.StartTime < DateTime.Now.AddMinutes(1))

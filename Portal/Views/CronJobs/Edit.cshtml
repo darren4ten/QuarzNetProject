@@ -4,12 +4,16 @@
     ViewBag.Title = "Job配置";
 }
 @model JobCommon.Model.Job_Config
-
+<style>
+    .help {
+        color: red;
+    }
+</style>
 <div class="panel panel-primary">
     <div class="panel-heading">
         <span class="panel-title">@ViewBag.Title</span>
         <span class="actions">
-            <a href="javascript:;" id="btn_delete" class="btn red @ViewBag.IsDeleteHidden" data-toggle="modal" data-target="#myModal_Delete">删除</a>
+            <a href="/CronJobs/Delete?id=@Model.ID" id="btn_delete" class="btn red @ViewBag.IsDeleteHidden" data-toggle="modal" onclick="return confirm('确认删除该记录吗？')">删除</a>
             <a href="@Url.Action("Index")" class="btn grey">返回</a>
         </span>
 
@@ -41,8 +45,8 @@
                 else
                 {
                     <div class="controls  col-md-4">
-                        @Html.TextBoxFor(model => model.JobName, new { @class = "help col-md-12" })
-                        @Html.ValidationMessageFor(model => model.JobName, "", new { @class = "help col-md-6" })
+                        @Html.TextBoxFor(model => model.JobName, new { @class = " col-md-12" })
+                        @Html.ValidationMessageFor(model => model.JobName, "", new { @class = "help col-md-12" })
                     </div>
                 }
 
@@ -50,7 +54,7 @@
                 <div class="controls col-md-4">
                     @Html.TextBoxFor(model => model.JobDisplayName, new { @class = "col-md-12", @aa = "aaa" })
 
-                    @Html.ValidationMessageFor(model => model.JobDisplayName, "", new { @class = "help" })
+                    @Html.ValidationMessageFor(model => model.JobDisplayName, "", new { @class = "help col-md-12" })
                 </div>
             </div>
 
@@ -58,9 +62,9 @@
             <div class="row">
                 @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label  col-md-2" })
                 <div class="controls col-md-4">
-                    @Html.TextBoxFor(model => model.StartTime, "", new { @class = "help col-md-12" })
+                    @Html.TextBoxFor(model => model.StartTime, "", new { @class = " col-md-12" })
+                    @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "help col-md-12" })
                 </div>
-                @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "help" })
 
                 @*@Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label  col-md-2" })
                     <div class="controls col-md-4">
@@ -73,12 +77,12 @@
             <div class="row">
                 @Html.LabelFor(model => model.RepeatMode, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="controls col-md-4">
-                    @(Html.EnumToDropdownList(Model.RepeatMode, "RepeatMode", "col-md-8", "--请选择--"))
+                    @(Html.EnumToDropdownList((JobCommon.Model.RepeatModeEnum)Model.RepeatMode, "RepeatMode", "col-md-8", "--请选择--"))
                 </div>
 
             </div>
 
-            <div class="row" id="FixedExpressionRow">
+            <div class="row" id="FixedExpressionRow" style="@(Model.RepeatMode != (int)JobCommon.Model.RepeatModeEnum.Interval?"block":"display:none")">
                 @Html.LabelFor(model => model.FixedExpression, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="controls col-md-10">
                     @Html.TextAreaFor(model => model.FixedExpression, new { @class = "col-md-12" })
@@ -86,10 +90,10 @@
 
             </div>
 
-            <div class="row" id="IntervalRow" style="@(Model.RepeatMode == (int)JobCommon.Model.RepeatModeEnum.Interval?"":"display:none")">
+            <div class="row" id="IntervalRow" style="@(Model.RepeatMode == (int)JobCommon.Model.RepeatModeEnum.Interval?"block":"display:none")">
                 @Html.LabelFor(model => model.CycleUnit, htmlAttributes: new { @class = "control-label col-md-2 " })
                 <div class="controls col-md-4">
-                    @(Html.EnumToDropdownList(Model.CycleUnit, "CycleUnit", "col-md-8", "--请选择--"))
+                    @(Html.EnumToDropdownList((JobCommon.Model.CycleUnitEnum)Model.CycleUnit, "CycleUnit", "col-md-8", "--请选择--"))
                     @*@Html.DropDownListFor(model => model.CycleUnit, (List<SelectListItem>)ViewBag.CycleUnits, "--请选择--")*@
                 </div>
 
@@ -97,7 +101,7 @@
                 <div class="controls col-md-4">
                     @Html.TextBoxFor(model => model.Interval, "", new { @class = "control-label col-md-12 " })
                 </div>
-                @Html.ValidationMessageFor(model => model.Interval, "", new { @class = "help" })
+                @Html.ValidationMessageFor(model => model.Interval, "", new { @class = "help col-md-12" })
 
             </div>
 
@@ -117,7 +121,7 @@
                 @Html.LabelFor(model => model.FilePath, htmlAttributes: new { @class = "control-label col-md-2 span2" })
                 <div class="controls col-md-10">
                     @Html.TextBoxFor(model => model.FilePath, "", new { @class = "m-wrap col-md-12", @readonly = "readonly" })
-                    @Html.ValidationMessageFor(model => model.FilePath, "", new { @class = "help col-md-2" })
+                    @Html.ValidationMessageFor(model => model.FilePath, "", new { @class = "help col-md-12" })
                 </div>
             </div>
 
@@ -125,7 +129,7 @@
                 @Html.LabelFor(model => model.ClassName, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="controls col-md-4">
                     @Html.TextBoxFor(model => model.ClassName, "", new { @class = "m-wrap col-md-12" })
-                    @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "help" })
+                    @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "help col-md-12" })
                 </div>
 
                 @Html.LabelFor(model => model.IsEnable, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -153,7 +157,7 @@
 
         $("#RepeatMode").change(function () {
             var mode = $(this).val();
-            if (mode == 1) {
+            if (mode == 2) {
                 $("#IntervalRow").show();
                 $("#FixedExpressionRow").hide();
             } else {

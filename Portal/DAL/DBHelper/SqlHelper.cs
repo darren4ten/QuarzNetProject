@@ -100,7 +100,20 @@ namespace Portal.DAL.DBHelper
                 return Convert.ToDateTime(val);
             }
         }
-        
+
+        public static object ExecuteScalar(string sql, params SqlParameter[] pars)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnStr))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    SqlHelper.FilterDbNullVals(pars);
+                    cmd.Parameters.AddRange(pars);
+                    return cmd.ExecuteScalar();
+                }
+            }
+        }
 
         public static int ExecuteNonQuery(string sql, params SqlParameter[] pars)
         {

@@ -1,4 +1,5 @@
-﻿using JobAPI.Managers;
+﻿using JobAPI;
+using JobAPI.Managers;
 using JobCommon.Model;
 using log4net;
 using System;
@@ -61,6 +62,7 @@ namespace JobHost
                 catch (Exception ex)
                 {
                     var wrapper = new Exception("同步job配置失败", ex);
+                    logger.Error(wrapper);
                 }
                 Thread.Sleep(60 * 1000);            // 每分钟循环一次
             }

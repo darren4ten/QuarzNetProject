@@ -4,6 +4,7 @@ using Portal.DAL;
 using Portal.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -14,6 +15,7 @@ namespace Portal.Controllers
     public class CronJobsController : Controller
     {
         JobRecordDAL dal = new JobRecordDAL();
+        private string configPath = ConfigurationManager.AppSettings["Folder_Job_Config"];
         //
         // GET: /CronJobs/
 
@@ -22,12 +24,18 @@ namespace Portal.Controllers
             return View();
         }
 
+        public ActionResult Delete(int id)
+        {
+            int ret = dal.Delete(id, false);
+            return RedirectToAction("TaskList");
+        }
         public ActionResult Edit(string id = "")
         {
             Job_Config record = new Job_Config();
             if (string.IsNullOrEmpty(id))
             {
                 record.ID = -1;
+                record.RepeatMode = 0;
                 record.StartTime = DateTime.Now;
 
             }
@@ -35,39 +43,53 @@ namespace Portal.Controllers
             {
                 record = dal.Get(Convert.ToInt32(id));
             }
-            return View(record);
+            if (record != null)
+            {
+                return View(record);
+            }
+            else
+            {
+                return View("_NoFound");
+            }
+
         }
 
         [HttpPost]
         public ActionResult Edit(Job_Config record, string buttons = "")
         {
             int cnt = -1;
+            record.GroupName = "testGroup";
             if (ModelState.IsValid)
             {
+                if (buttons == "上传")
+                {
+                    string fullPath = UploadFiles();
+                    if (!string.IsNullOrEmpty(fullPath))
+                    {
+                        record.FilePath = fullPath;
+                    }
+                }
+
                 if (record.ID == -1)
                 {
                     record.DataChange_CreateTime = DateTime.Now;
 
-                    cnt = dal.Add(record);
+                    record.ID = dal.Add(record);
+
                 }
                 else
                 {
-                    if (buttons == "上传")
-                    {
-                        string fullPath = UploadFiles();
-                        if (!string.IsNullOrEmpty(fullPath))
-                        {
-                            record.FilePath = fullPath;
-                        }
-                    }
+                    record.Status = 1;//更新为更新状态
                     cnt = dal.Update(record);
                 }
+
+
 
                 //if (record.ID!=-1 && cnt > 0)
                 //{
                 //    return RedirectToAction("TaskList");
                 //}
-                return RedirectToAction("Edit");
+                return RedirectToAction("Edit", new { id = record.ID });
             }
             else
             {
@@ -75,7 +97,7 @@ namespace Portal.Controllers
             }
 
 
-            record.GroupName = "testGroup";
+
 
             return View();
 
@@ -86,7 +108,7 @@ namespace Portal.Controllers
             if (Request.Files.Count > 0)
             {
                 var file = Request.Files[0];
-                string dirPath = "D:/temp/";
+                string dirPath = configPath;
                 string fullPath = string.Format("{0}_{1}", DateTime.Now.ToString("yyyyMMddHHmmss"), file.FileName);
                 if (!Directory.Exists(dirPath))
                 {

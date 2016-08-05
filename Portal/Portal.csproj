@@ -188,6 +188,7 @@
     <Content Include="Views\CronJobs\Test.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\CronJobs\TaskList.cshtml" />
+    <Content Include="Views\Shared\_NoFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

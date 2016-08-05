@@ -165,7 +165,8 @@ namespace Portal.Extensions
                 }
                 for (int i = 0; i < names.Length; i++)
                 {
-                    sb.Append(String.Format("<option value='{0}' {1}>{2}</option>", i, (i == selVal ? "selected" : ""), names[i]));
+                    var val = (int)Enum.Parse(typeof(T), names[i]);
+                    sb.Append(String.Format("<option value='{0}' {1}>{2}</option>", val, (val == selVal ? "selected" : ""), names[i]));
                 }
                 sb.Append("</select>");
             }

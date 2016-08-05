@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace JobCommon.Model
 {
+   
+    [Serializable]
     public class JobInfo
     {
         /// <summary>

@@ -20,6 +20,7 @@ namespace JobCommon.Model
         /// <summary>
         /// job名称
         /// </summary>
+        [Required]
         [Display(Name = "job名称")]
         public string JobName { get; set; }
 
@@ -27,6 +28,7 @@ namespace JobCommon.Model
         /// job显示名称
         /// </summary>
         [Display(Name = "job显示名称")]
+        [Required]
         public string JobDisplayName { get; set; }
 
         /// <summary>
@@ -56,6 +58,7 @@ namespace JobCommon.Model
         /// <summary>
         /// 程序集名称
         /// </summary>
+        [Required]
         [Display(Name = "程序集名称")]
         public string AssemblyName { get; set; }
 
@@ -63,6 +66,7 @@ namespace JobCommon.Model
         /// 类名
         /// </summary>
         [Display(Name = "类名")]
+        [Required]
         public string ClassName { get; set; }
 
         /// <summary>

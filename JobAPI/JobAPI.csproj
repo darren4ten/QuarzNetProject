@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppConfigHelper.cs" />
     <Compile Include="HostJob.cs" />
     <Compile Include="HostScheduler.cs" />
     <Compile Include="Managers\HostTriggerModel.cs" />

@@ -12,14 +12,28 @@ namespace Portal.DAL
 {
     public class JobRecordDAL
     {
+        public int Delete(int id, bool isSoftDeleted = true)
+        {
+            string sql = "";
+            if (isSoftDeleted)
+            {
+                sql = "update Job_Config set Status=3 where id=" + id;
+            }
+            else
+            {
+                sql = "delete from Job_Config where id=" + id;
+            }
+            return SqlHelper.ExecuteNonQuery(sql);
+        }
+
         public int Add(Job_Config record)
         {
-            string sql = @"insert into Job_Config
+            string sql = @"insert into Job_Config output inserted.ID
                         values(@jname,@jdisplay,@gname,@cycleUnit,@interval,@assemblyName,@jclass,
                             @start,@enabled,@dtCreatTime,@dtLastTime,@filePath,@status,@repeatMode,@fixedUnit,@FixedExpression)";
 
 
-            return SqlHelper.ExecuteNonQuery(sql,
+            object autoId = SqlHelper.ExecuteScalar(sql,
 
                 new SqlParameter("@jname", record.JobName),
                 new SqlParameter("@gname", record.GroupName),
@@ -38,6 +52,7 @@ namespace Portal.DAL
                 new SqlParameter("@status", record.Status),
                 new SqlParameter("@enabled", record.IsEnable)
                 );
+            return Convert.ToInt32(autoId);
         }
 
         public int Update(Job_Config record)

@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="demoCronJob.cs" />
     <Compile Include="DemoJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

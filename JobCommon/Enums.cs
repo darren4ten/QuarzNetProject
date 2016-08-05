@@ -23,7 +23,12 @@ namespace JobCommon.Model
         /// <summary>
         /// 固定时间
         /// </summary>
-        FixedTime = 3
+        FixedTime = 3,
+
+        /// <summary>
+        /// 定时任务表达式
+        /// </summary>
+        CronExp = 4
     }
 
     /// <summary>
